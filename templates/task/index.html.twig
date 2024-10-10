@@ -1,0 +1,44 @@
+{# templates/task/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Tâches{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Mes Tâches</h1>
+
+    <a href="{{ path('app_task_new') }}" class="btn btn-primary mb-3">Créer une nouvelle tâche</a>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date d'échéance</th>
+                <th>Terminée</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.dueDate ? task.dueDate|date('d/m/Y H:i') : '' }}</td>
+                    <td>{{ task.isCompleted ? 'Oui' : 'Non' }}</td>
+                    <td>
+                        <a href="{{ path('app_task_show', {'id': task.id}) }}" class="btn btn-sm btn-info">Voir</a>
+                        <a href="{{ path('app_task_edit', {'id': task.id}) }}" class="btn btn-sm btn-warning">Éditer</a>
+                        <form method="post" action="{{ path('app_task_delete', {'id': task.id}) }}" style="display: inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                            <button class="btn btn-sm btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucune tâche trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

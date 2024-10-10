@@ -1,0 +1,30 @@
+{# templates/task/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une nouvelle tâche{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle tâche</h1>
+
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.dueDate) }}
+            {{ form_widget(form.dueDate, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-check">
+            {{ form_widget(form.isCompleted, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(form.isCompleted, null, {'label_attr': {'class': 'form-check-label'}}) }}
+        </div>
+        <button class="btn btn-success mt-3">Enregistrer</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_task_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+{% endblock %}
